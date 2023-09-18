@@ -1,0 +1,23 @@
+specVersion: 0.35.0
+name: analyzer
+runtime: quarkus
+registry: quay.io/creydr/wjax
+image: quay.io/creydr/wjax/analyzer:latest
+imageDigest: sha256:ffc87fe6cb755bbc85c2ae5691423f7b9e847b4aac1a6258ad27e65290ea206c
+created: 2023-09-18T13:45:38.452961095+02:00
+build:
+  builder: pack
+  buildEnvs:
+  - name: BP_NATIVE_IMAGE
+    value: "false"
+  - name: BP_MAVEN_BUILT_ARTIFACT
+    value: func.yaml target/quarkus-app/lib/ target/quarkus-app/*.jar target/quarkus-app/app/
+      target/quarkus-app/quarkus/
+  - name: BP_MAVEN_BUILD_ARGUMENTS
+    value: package -DskipTests=true -Dmaven.javadoc.skip=true -Dquarkus.package.type=fast-jar
+  - name: MAVEN_S2I_ARTIFACT_DIRS
+    value: target/quarkus-app
+  - name: S2I_SOURCE_DEPLOYMENTS_FILTER
+    value: lib quarkus-run.jar app quarkus
+deploy:
+  namespace: default
