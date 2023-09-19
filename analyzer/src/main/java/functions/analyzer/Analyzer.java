@@ -3,19 +3,15 @@ package functions.analyzer;
 import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.Arrays;
-import java.util.List;
-
+@ApplicationScoped
 public class Analyzer {
 
-    private OpenAiService service;
-
-    public Analyzer(String apiToken) {
-        this.service = new OpenAiService(apiToken);
-    }
-
     public Classification predict(String message) {
+        String apiToken = System.getenv("OPENAI_API_KEY");
+        OpenAiService service = new OpenAiService(apiToken);
+
         CompletionRequest completionRequest = CompletionRequest.builder()
                 .prompt("Sentiment analysis of the following text:\n" + message)
                 .model("text-davinci-003")
@@ -28,7 +24,7 @@ public class Analyzer {
                 .n(1)
                 .build();
 
-        for (CompletionChoice choice : this.service.createCompletion(completionRequest).getChoices()) {
+        for (CompletionChoice choice : service.createCompletion(completionRequest).getChoices()) {
             //only take the first one
 
             switch (choice.getText().strip().toLowerCase()) {

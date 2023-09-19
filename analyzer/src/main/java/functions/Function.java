@@ -7,19 +7,18 @@ import io.quarkus.funqy.Funq;
 import io.quarkus.funqy.knative.events.CloudEvent;
 import io.quarkus.funqy.knative.events.CloudEventBuilder;
 import io.quarkus.logging.Log;
+import jakarta.inject.Inject;
 
-
-/**
- * Your Function class
- */
 public class Function {
+
+    @Inject
+    private Analyzer analyzer;
 
     @Funq
     public CloudEvent<IssueCommentEvent> function(CloudEvent<IssueCommentEvent> in) {
         Log.infof("Got request for issueCommentEvent: %s", in.id());
 
-        Analyzer analyzer = new Analyzer(System.getenv("OPENAI_API_KEY"));
-        Classification result = analyzer.predict(in.data().getComment().getBody());
+        Classification result = this.analyzer.predict(in.data().getComment().getBody());
 
         String type;
         switch (result) {
@@ -41,5 +40,4 @@ public class Function {
 
         return ce;
     }
-
 }
