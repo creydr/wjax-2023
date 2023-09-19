@@ -3,6 +3,7 @@ package functions.github;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public class Issue {
 
     @JsonProperty("html_url")
-    private String url;
+    private URL url;
 
     private int number;
 

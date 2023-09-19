@@ -3,16 +3,17 @@ package functions.github;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.net.URL;
 import java.util.Date;
 
 @Data
 public class Comment {
 
     @JsonProperty("html_url")
-    private String url;
+    private URL url;
 
     @JsonProperty("issue_url")
-    private String issueUrl;
+    private URL issueUrl;
 
     private User user;
 

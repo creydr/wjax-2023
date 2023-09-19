@@ -3,6 +3,8 @@ package functions.github;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.net.URL;
+
 @Data
 public class Repository {
     private String name;
@@ -10,6 +12,6 @@ public class Repository {
     private String fullName;
     private User owner;
     @JsonProperty("html_url")
-    private String url;
+    private URL url;
     private String description;
 }
