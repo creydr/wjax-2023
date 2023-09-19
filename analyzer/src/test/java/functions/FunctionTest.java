@@ -222,8 +222,6 @@ public class FunctionTest {
                 .post("/")
                 .then().statusCode(200)
                 .header("ce-type", "classification.positive");
-        //.body(equalTo(requestData))
-        //.header("ce-type", "classification.positive");
     }
 
 

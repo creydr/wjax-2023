@@ -15,7 +15,7 @@ public class Function {
     private Analyzer analyzer;
 
     @Funq
-    public CloudEvent<IssueCommentEvent> function(CloudEvent<IssueCommentEvent> in) {
+    public CloudEvent<Output> function(CloudEvent<IssueCommentEvent> in) {
         Log.infof("Got request for issueCommentEvent: %s", in.id());
 
         Classification result = this.analyzer.predict(in.data().getComment().getBody());
@@ -28,9 +28,14 @@ public class Function {
             default -> type = "classification.unknown";
         }
 
-        CloudEvent<IssueCommentEvent> ce = CloudEventBuilder.create()
+        CloudEvent<Output> ce = CloudEventBuilder.create()
                 .type(type)
-                .build(in.data());
+                .build(Output.builder()
+                    .comment(in.data().getComment().getBody())
+                    .author(in.data().getComment().getUser().getLogin())
+                    .commentUrl(in.data().getComment().getUrl())
+                    .issueUrl(in.data().getIssue().getUrl())
+                    .build());
 
         Log.infof("Predicted \"%s\" from %s created at %s as %s",
                 in.data().getComment().getBody(),
