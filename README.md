@@ -117,7 +117,7 @@ kubectl logs -l serving.knative.dev/service=event-display -f
 
 ```sh
 pushd analyzer
-func deploy
+func deploy -e OPENAI_API_KEY=${OPENAI_API_KEY}
 popd
 ```
 
