@@ -31,7 +31,7 @@ kubectl -n default create secret generic githubsecret --from-literal=accessToken
 ## Create a Broker for the events from the GitHub source
 
 ```sh
-cat <<-EOF | kubectl apply -f
+cat <<-EOF | kubectl apply -f -
 apiVersion: eventing.knative.dev/v1
 kind: Broker
 metadata:
@@ -44,11 +44,11 @@ EOF
 ## Create a Trigger & Service to display all events from the GitHub source
 
 ```sh
-cat <<-EOF | kubectl apply -f
+cat <<-EOF | kubectl apply -f -
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: all-events-display
+  name: all-issue-comments-display
 spec:
   template:
     metadata:
@@ -70,14 +70,14 @@ spec:
     ref:
       apiVersion: serving.knative.dev/v1
       kind: Service
-      name: all-events-display
+      name: all-issue-comments-display
 EOF
 ```
 
 ## Create a GitHub Source for new issue comments
 
 ```sh
-cat <<-EOF | kubectl apply -f
+cat <<-EOF | kubectl apply -f -
 apiVersion: sources.knative.dev/v1alpha1
 kind: GitHubSource
 metadata:
@@ -85,7 +85,7 @@ metadata:
 spec:
   eventTypes:
     - issue_comment
-  ownerAndRepository: creydr/wjax-2023
+  ownerAndRepository: "creydr/wjax-2023"
   accessToken:
     secretKeyRef:
       name: githubsecret
@@ -123,7 +123,7 @@ popd
 # Step 5: Create a Trigger to send new issue comments to the Function
 
 ```sh
-cat <<-EOF | kubectl apply -f
+cat <<-EOF | kubectl apply -f -
 apiVersion: eventing.knative.dev/v1
 kind: Trigger
 metadata:
@@ -133,6 +133,7 @@ spec:
   filter:
     attributes:
       type: dev.knative.source.github.issue_comment
+      action: created
   subscriber:
     uri: http://analyzer.default.svc.cluster.local
 EOF
@@ -141,7 +142,7 @@ EOF
 # Step 6: Create a Trigger & Service to display all events which were classified negatively
 
 ```sh
-cat <<-EOF | kubectl apply -f
+cat <<-EOF | kubectl apply -f -
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
