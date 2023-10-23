@@ -7,7 +7,7 @@ This is a demo project doing sentiment analysis for GitHub issue comments based 
 # Step 1: Deploy Knative Eventing GitHub Source Controller
 
 ```sh
-kubectl apply -f https://github.com/knative-extensions/eventing-github/releases/download/knative-v1.11.0/github.yaml
+kubectl apply -f https://github.com/knative-extensions/eventing-github/releases/download/knative-v1.11.1/github.yaml
 ```
 
 Verify by checking that the manager is running:
@@ -99,6 +99,7 @@ spec:
       apiVersion: eventing.knative.dev/v1
       kind: Broker
       name: github-events
+  secure: false
 EOF
 ```
 
