@@ -1,0 +1,12 @@
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: issue-comments-analyze
+spec:
+  broker: github-events
+  filter:
+    attributes:
+      type: dev.knative.source.github.issue_comment
+      action: created
+  subscriber:
+    uri: http://analyzer.default.svc.cluster.local
