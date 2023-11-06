@@ -58,6 +58,16 @@ spec:
       containers:
         - image: gcr.io/knative-releases/knative.dev/eventing/cmd/event_display
 
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+              - ALL
+            seccompProfile:
+              type: RuntimeDefault
+
 ---
 
 apiVersion: eventing.knative.dev/v1
@@ -156,6 +166,16 @@ spec:
     spec:
       containers:
         - image: gcr.io/knative-releases/knative.dev/eventing/cmd/event_display
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+              - ALL
+            seccompProfile:
+              type: RuntimeDefault
 
 ---
 
